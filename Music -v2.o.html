@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+  <title>music</title>
+  <style>
+    *{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  
+}
+body{
+  margin: 0px;
+  position: relative;
+  
+  background: black;
+}
+canvas{
+
+  position: relative;
+
+  height: 96%;
+  width: 99%;
+  /* border: 4px solid red; */
+  top: 100vh/2;
+  left: 100vw/2;
+transform: translate(-50% -50%);
+/* filter: blur(1px) contrast(5) */
+
+}
+/* input[type="file"]{
+  position: absolute;
+  top: 10%;
+left: 20%;
+transform: translate(-50% -50%);
+  height: auto;
+  width: auto;
+  font-size: 20px;
+  overflow: hidden;
+  display: none;
+  background-color:red;
+  color: #D65B88;
+} */
+    
+  </style>
+</head>
+<body>
+  <input type="file" id="files"  accept="audio/*" multiple>
+  
+    <canvas>
+      
+    </canvas>
+    
+  
+       <audio id="audio" autoplay>
+
+   </audio>
+
+  
+  
+  <script >
+    var filess = document.getElementById('files');
+var aud = document.querySelector('audio')
+
+
+files.onchange = function() {
+  //  rawat();
+  var reader = new FileReader();
+  reader.readAsDataURL(filess.files[0]);
+  reader.onload = function() {
+
+    //     var str =files.name+'uuu';
+    // var newStr = str.replace(/');
+
+
+    var fname = reader.result;
+    audio.src = fname;
+    audio.play();
+  }
+
+}
+
+
+window.AudioContext = window.AudioContext || window.webkitAudioContext;
+  const cv = document.querySelector('canvas')
+  const atx = new window.AudioContext();
+  const ctx = cv.getContext('2d');
+
+  // play btn in cod 
+  
+  const analyser = atx.createAnalyser();
+  const source = atx.createMediaElementSource(audio);
+  cv.height = window.innerHeight;
+  cv.width = window.innerWidth;
+  source.connect(analyser);
+  source.connect(atx.destination);
+  
+  analyser.fftSize = 512;
+  const bufferLength = analyser.frequencyBinCount;
+  let dataArray = new Uint8Array(bufferLength);
+  const bw = cv.width / bufferLength;
+  let bh;
+  let x;
+  let s;
+
+  function animaye() {
+    s = 0;
+    x = 0;
+    
+    ctx.clearRect(0, 0, cv.width, cv.height);
+     ctx.fillStyle='red'
+    analyser.getByteFrequencyData(dataArray)
+    requestAnimationFrame(animaye)
+    for (var i = 0; i < bufferLength; i++) {
+      bh = dataArray[i];
+      s = i * i++;
+      var sx = s++;
+      var sx = 50;
+      var color= [ 
+        'red',
+        'blue',
+        'green',
+        'pink',
+        'gold',
+        'darkyellow',
+        'redpink'
+        
+        ]
+      const cl= randomColors = Math.floor(Math.random() * color.length *3);
+      const cl2= randomColors = Math.floor(Math.random() * color.length );
+
+      ctx.save();
+      ctx.translate(220, innerHeight-700)
+      ctx.rotate(i*Math.PI*2/bufferLength)
+      ctx.beginPath();
+      ctx.fillStyle = color[cl];
+      ctx.arc(10, 10+bh, 5, 0, 10 * Math.PI, );
+      ctx.fill()
+      ctx.fillStyle = color[cl2];
+      ctx.fillRect(10, 10,-bw+9, bh+8)
+      ctx.restore();
+      x += bw;
+      
+      ctx.save();
+      ctx.translate(220, innerHeight-140)
+      ctx.rotate(i*Math.PI*2/bufferLength)
+      ctx.beginPath();
+      ctx.fillStyle = color[cl];
+      ctx.arc(10, 10+bh, 5, 0, 1 * Math.PI, );
+      ctx.fill()
+      ctx.fillStyle = color[cl2];
+      ctx.fillRect(10, 10,-bw+9, bh+8)
+      ctx.restore();
+      x += bw;
+
+
+      // ctx.save();
+      // ctx.translate(100, innerHeight - 100)
+      // //ctx.rotate(i / bufferLength *i)
+      // ctx.beginPath();
+      // ctx.fillStyle = cl;
+      // ctx.fillStyle = cl;
+      // ctx.arc(i++, 50 - bh, 8, 0, 80 * Math.PI, );
+      // ctx.fill()
+      // ctx.fillRect(i++, 50, bw, bh)
+      // ctx.restore();
+
+
+
+
+    }
+
+  }
+
+  animaye();
+
+
+    
+  </script>
+</body>
+</html>
